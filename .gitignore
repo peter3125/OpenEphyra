@@ -1,1 +1,7 @@
 log/*
+*.iml
+.idea
+.gradle
+out
+dist
+build

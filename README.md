@@ -61,7 +61,7 @@ conf/          Configuration files
 doc/           Javadoc documentation
 lib/           Third party libraries
 log/           Log files
-res/           Resource files
+resources/     Resource files
 scripts/       Command line scripts
 src/           Java source files
 build.xml      Ant build file for OpenEphyra

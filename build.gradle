@@ -1,0 +1,97 @@
+apply from: 'version.gradle'
+
+apply plugin: 'java'
+
+description = 'OpenEphyra'
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'lib/ml'
+        dirs 'lib/nlp'
+        dirs 'lib/qa'
+        dirs 'lib/search'
+        dirs 'lib/util'
+    }
+}
+
+dependencies {
+
+    // ml
+    compile name: 'maxent'
+    compile name: 'minorthird'
+
+    // nlp
+    compile name: 'jwnl'
+    compile name: 'lingpipe'
+    compile name: 'opennlp-tools'
+    compile name: 'plingstemmer'
+    compile name: 'snowball'
+    compile name: 'stanford-ner'
+    compile name: 'stanford-parser'
+    compile name: 'stanford-postagger'
+
+    // qa
+    compile name: 'javelin'
+
+    // search
+    compile name: 'bing-search-java-sdk'
+    compile name: 'googleapi'
+    compile name: 'indri'
+    compile name: 'yahoosearch'
+
+    // util
+    compile name: 'commons-codec-1.9'
+    compile name: 'commons-logging'
+    compile name: 'gson'
+    compile name: 'htmlparser'
+    compile name: 'log4j'
+    compile name: 'trove'
+
+    //compile group: 'org.apache.opennlp', name: 'opennlp-maxent', version: '3.0.3'
+
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+}
+
+jar {
+    baseName = 'OpenEphyra'
+    version =  openEphyraVersion
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'info.ephyra.OpenEphyra'
+        )
+    }
+}
+
+// setup the bcp utility on /opt/myhousehold/bcp
+task setup(type: Copy) {
+    dependsOn build
+
+    delete "./dist"
+
+    into './dist/lib'
+    from configurations.runtime
+    from jar
+
+    from(new File(project.rootDir.toString() + '/scripts/openEphyra.sh')) {
+        into '..'
+    }
+
+    from(new File(project.rootDir.toString() + '/resources')) {
+        into '../resources'
+    }
+//    from(new File(project.rootDir.toString() + '/ubuntu/upm.sh'))
+//    from(new File(project.rootDir.toString() + '/ubuntu/images/128x128/upm.png'))
+}

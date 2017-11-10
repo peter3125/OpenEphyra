@@ -1,0 +1,18 @@
+def getVersionName = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim().replaceAll( '-', '.' )
+}
+
+ext{
+
+    openEphyraVersion = getVersionName()
+
+    junitVersion = '4.12'
+
+    javaVersion = '1.8'
+}
+
