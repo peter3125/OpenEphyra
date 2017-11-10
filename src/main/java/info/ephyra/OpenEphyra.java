@@ -288,7 +288,7 @@ public class OpenEphyra
         // search
         // - knowledge miners for unstructured knowledge sources
         Search.clearKnowledgeMiners();
-        Search.addKnowledgeMiner(new BingAzureKM());
+        //Search.addKnowledgeMiner(new BingAzureKM());
 
         // for (String[] indriIndices : IndriKM.getIndriIndices())
         // Search.addKnowledgeMiner(new IndriKM(indriIndices, false));
